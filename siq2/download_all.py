@@ -64,6 +64,12 @@ def find_active_videos(ids):
             
             temp_folder = tempfile.TemporaryDirectory()
 
+            # don't download if the trimmed video already exists
+            final_path = join(video_path, id + ".mp4")
+            if os.path.exists(final_path):
+                found_vids.append(id)
+                continue
+
             # download full video from youtube if available
             full_video = youtube_utils.download_video(id, temp_folder.name, False)
             if full_video == None:
